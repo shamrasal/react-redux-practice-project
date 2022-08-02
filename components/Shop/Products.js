@@ -8,6 +8,7 @@ const Products = (props) => {
       <ul>
         <ProductItem
           title='Test'
+          id='no1'
           price={6}
           description='This is a first product - amazing!'
         />
