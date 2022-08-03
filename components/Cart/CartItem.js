@@ -5,7 +5,7 @@ import { CartItemActions } from '../Store/CartItems';
 const CartItem = (props) => {
   const dispatch = useDispatch()
   const { title, quantity, total, price } = props.item;
-
+ 
   const additemHandler = () => {
     dispatch(CartItemActions.addItemToCart(props.item))
   }

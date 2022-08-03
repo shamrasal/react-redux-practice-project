@@ -5,7 +5,7 @@ import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
 import { CartActions } from './components/Store/CartStore';
-
+import { CartItemActions } from './components/Store/CartItems'
 let isInitial = true
 
 function App() {
@@ -38,17 +38,40 @@ function App() {
     }
 
     if (isInitial) {
+      const getCartData = async () => {
+        const response = await fetch('https://general-26038-default-rtdb.firebaseio.com/cart.json', {
+          method: 'GET',
+        })
+
+        if (!response.ok) {
+          throw new Error('something went wrong...!')
+        }
+
+        const responseData = await response.json()
+
+        dispatch(CartItemActions.replace({
+          items: responseData.items || [],
+          totalQuantit: responseData.totalQuantit || 0
+        }))
+      }
+      getCartData().catch(err => {
+        console.log(err)
+      })
       isInitial = false
       return
     }
-    sendCartData().catch(error => {
-      dispatch(CartActions.ShowNotification({
-        status: 'error',
-        title: 'ERROR !',
-        message: 'sent cart data failed !'
-      }))
 
-    })
+    if (cart.updateCart) {
+      sendCartData().catch(error => {
+        dispatch(CartActions.ShowNotification({
+          status: 'error',
+          title: 'ERROR !',
+          message: 'sent cart data failed !'
+        }))
+
+      })
+
+    }
 
   }, [cart, dispatch])
   return (
