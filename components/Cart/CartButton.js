@@ -3,8 +3,7 @@ import classes from './CartButton.module.css';
 import { CartActions } from '../Store/CartStore';
 
 const CartButton = (props) => {
-  const items = useSelector(state => state.CartItem.items)
-  const numberOfitems = items.length
+  const items = useSelector(state => state.CartItem.totalQuantit)
   const dispatch = useDispatch()
   const showCartHandler = () => {
     dispatch(CartActions.switch())
@@ -12,7 +11,7 @@ const CartButton = (props) => {
   return (
     <button onClick={showCartHandler} className={classes.button}>
       <span>My Cart</span>
-      <span className={classes.badge}>{numberOfitems}</span>
+      <span className={classes.badge}>{items}</span>
     </button>
   );
 };
